@@ -16,7 +16,7 @@ services:
      - BOUKER_DATABASE_URL=bookingdb:5433
      - BOUKER_USERNAME=bouker_booking
      - BOUKER_PASSWORD=passwd123
-     - REACT_APP_BOUKER_EVENTS_URL=localhost:8004
+     - REACT_APP_BOUKER_EVENTS_URL=http://127.0.0.1:8004/
     links:
      - bookingdb
   ui:
@@ -24,8 +24,8 @@ services:
     ports:
      - "8000:3000"
     environment:
-     - REACT_APP_BOUKER_EVENTS_URL=localhost:8004/
-     - REACT_APP_BOUKER_BOOKING_URL=localhost:8005/
+     - REACT_APP_BOUKER_EVENTS_URL=http://127.0.0.1:8004/
+     - REACT_APP_BOUKER_BOOKING_URL=http://127.0.0.1:8004/
   eventsdb:
     image: postgres
     environment:
