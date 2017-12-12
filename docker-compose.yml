@@ -1,0 +1,44 @@
+version: '3'
+services:
+  events:
+    image: bouker/bouker-events
+    ports:
+     - "8004:8000"
+    environment:
+     - SQLALCHEMY_DATABASE_URI=postgresql://bouker_events:passwd123@eventsdb/bouker_events
+    links:
+     - eventsdb
+  booking:
+    image: bouker/bouker-booking
+    ports:
+     - "8005:8080"
+    environment:
+     - BOUKER_DATABASE_URL=bookingdb:5433
+     - BOUKER_USERNAME=bouker_booking
+     - BOUKER_PASSWORD=passwd123
+     - REACT_APP_BOUKER_EVENTS_URL=localhost:8004
+    links:
+     - bookingdb
+  ui:
+    image: bouker/bouker-ui
+    ports:
+     - "8000:3000"
+    environment:
+     - REACT_APP_BOUKER_EVENTS_URL=localhost:8004/
+     - REACT_APP_BOUKER_BOOKING_URL=localhost:8005/
+  eventsdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=bouker_events
+      - POSTGRES_USER=bouker_events
+      - POSTGRES_PASSWORD=passwd123
+    expose:
+      - "5432"
+  bookingdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=bouker_booking
+      - POSTGRES_USER=bouker_booking
+      - POSTGRES_PASSWORD=passwd123
+    expose:
+      - "5432"
